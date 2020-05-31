@@ -1,19 +1,20 @@
 <script>
-  let item = {
-    name: "",
-    quantity: 0
-  };
-
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  let item = {
+    name: "",
+    quantity: 0,
+    completed: false
+  };
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log("onSubmit called")
+    console.log("onSubmit called");
     dispatch("additem", item);
     item = {
       name: "",
-      quantity: 0
+      quantity: 0,
+      completed: false
     };
   };
 </script>

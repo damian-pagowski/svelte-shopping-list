@@ -1,45 +1,50 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   export let name;
   export let quantity;
-  const decreaseQuantity = () => {
-    quantity -= 1;
-  };
-  const increaseQuantity = () => {
-    quantity += 1;
-  };
-
-  const deleteitem = () => {
-    console.log("deleted");
-  };
+  export let completed;
+  
+  let showControls = false;
 
   const toggleShowControls = () => {
     showControls = !showControls;
   };
-  let showControls = false;
+
+  const toggleCompleted = () => {
+    completed = !completed;
+  };
+
+  const deleteitem = () => {
+    dispatch("removeitem", name);
+  };
 </script>
+
+<style>
+  .completed {
+    text-decoration: line-through;
+  }
+</style>
 
 <div class="card mt-3" style="width: 18rem;">
   <div class="card-body">
 
-    <h5 class="card-title">Name: {name}</h5>
+    <h5 class="card-title {completed ? 'completed' : ''}">Name: {name}</h5>
     <p class="card-text">Quantity: {quantity}</p>
     <div class="form-group form-check">
-      <!-- <input
-        type="checkbox"
-        class="form-check-input"
-        id="showControls"
-        bind:checked={showControls} /> -->
-      <!-- <label class="form-check-label" for="showControls">Show Controls</label> -->
+
       <button class="btn btn-light" on:click={toggleShowControls}>
         <i class="fas fa-edit" />
       </button>
       <button class="btn btn-light" on:click={deleteitem}>
         <i class="fas fa-trash" />
       </button>
+      <button class="btn btn-light" on:click={toggleCompleted}>
+        <i class="far fa-check-square" />
+      </button>
     </div>
     {#if showControls}
-      <button class="btn btn-primary" on:click={increaseQuantity}>+1</button>
-      <button class="btn btn-primary" on:click={decreaseQuantity}>-1</button>
+      <input class="mt-3" type="text" bind:value={name} />
       <input class="mt-3" type="number" bind:value={quantity} />
     {/if}
   </div>

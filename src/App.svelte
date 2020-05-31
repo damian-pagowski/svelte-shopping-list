@@ -4,14 +4,20 @@
   import AddItem from "./AddItem.svelte";
 
   let items = [
-    { name: "Potatos", quantity: 100 },
-    { name: "Tomatos", quantity: 101 }
+    { name: "Potatos", quantity: 100, completed: true },
+    { name: "Tomatos", quantity: 101, completed: true }
   ];
 
   const addItem = e => {
     const newItem = e.detail;
-    console.log(newItem);
+    console.log("Adding: " + newItem);
     items = [...items, newItem];
+  };
+
+  const removeItem = e => {
+    const removedItemName = e.detail;
+    console.log("Removing: " + removedItemName);
+    items = items.filter(i => i.name != removedItemName);
   };
 </script>
 
@@ -33,7 +39,11 @@
       <p>Shopping List Empty</p>
     {:else}
       {#each items as item}
-        <Item name={item.name} quantity={item.quantity} />
+        <Item
+          name={item.name}
+          quantity={item.quantity}
+          completed={item.completed}
+          on:removeitem={removeItem} />
       {/each}
     {/if}
   </div>
